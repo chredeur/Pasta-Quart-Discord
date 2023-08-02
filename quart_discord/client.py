@@ -5,9 +5,6 @@ import discord
 
 from . import configs, _http, models, utils, exceptions
 
-from werkzeug.urls import iri_to_uri
-from markupsafe import escape
-
 from quart import request, session, redirect, current_app
 from oauthlib.common import add_params_to_uri, generate_token
 
@@ -137,7 +134,7 @@ class DiscordOAuth2Session(_http.DiscordOAuth2HttpClient):
         if get_url is False:
             return redirect(authorization_url)
         else:
-            return  str(escape(iri_to_uri(str(authorization_url), safe_conversion=True)))
+            return  sauthorization_url
 
     @staticmethod
     async def save_authorization_token(token: dict):
