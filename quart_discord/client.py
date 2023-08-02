@@ -70,7 +70,7 @@ class DiscordOAuth2Session(_http.DiscordOAuth2HttpClient):
             return lock
 
     async def create_session(
-            self, scope: list = None, *, data: dict = None, prompt: bool = True,
+            self, scope: list = None, get_url: bool = False, *, data: dict = None, prompt: bool = True,
             permissions: typing.Union[discord.Permissions, int] = 0, **params
     ):
         """Primary method used to create OAuth2 session and redirect users for
@@ -81,6 +81,8 @@ class DiscordOAuth2Session(_http.DiscordOAuth2HttpClient):
         scope : list, optional
             An optional list of valid `Discord OAuth2 Scopes
             <https://discordapp.com/developers/docs/topics/oauth2#shared-resources-oauth2-scopes>`_.
+        get_url : bool, optional
+            An optional bool that retrieves the url instead of automatically redirecting the client.
         data : dict, optional
             A mapping of your any custom data which you want to access after authorization grant. Use
             `:py:meth:quart_discord.DiscordOAuth2Session.callback` to retrieve this data in your callback view.
@@ -129,7 +131,7 @@ class DiscordOAuth2Session(_http.DiscordOAuth2HttpClient):
                 pass
         authorization_url = add_params_to_uri(authorization_url, params)
 
-        return redirect(authorization_url)
+        return redirect(authorization_url) if get_url is False else str(authorization_url)
 
     @staticmethod
     async def save_authorization_token(token: dict):

@@ -27,6 +27,8 @@ class User(DiscordModelsBase):
         The discord ID of the user.
     username : str
         The discord username of the user.
+    global_name : str
+        The discord global_name of the user.
     discriminator : str
         4 length string representing discord tag of the user.
     avatar_hash : str
@@ -58,6 +60,7 @@ class User(DiscordModelsBase):
         super().__init__(payload)
         self.id = int(self._payload["id"])
         self.username = self._payload["username"]
+        self.global_name = self._payload["global_name"]
         self.discriminator = self._payload["discriminator"]
         self.avatar_hash = self._payload.get("avatar", self.discriminator)
         self.bot = self._payload.get("bot", False)
@@ -71,6 +74,7 @@ class User(DiscordModelsBase):
         # Few properties which are intended to be cached.
         self._guilds = None         # Mapping of guild ID to quart_discord.models.Guild(...).
         self.connections = None     # List of quart_discord.models.UserConnection(...).
+        self.playlist_has_perm = {} # Specific variable for the playlist creator guild.
 
     @property
     def guilds(self):
@@ -88,7 +92,7 @@ class User(DiscordModelsBase):
         self._guilds = value
 
     def __str__(self):
-        return f"{self.name}#{self.discriminator}"
+        return f"{self.name}"
 
     def __eq__(self, user):
         return isinstance(user, User) and user.id == self.id
@@ -100,6 +104,11 @@ class User(DiscordModelsBase):
     def name(self):
         """An alias to the username attribute."""
         return self.username
+
+    @property
+    def global_name(self):
+        """An alias to the global_name attribute."""
+        return self.global_name
 
     @property
     def avatar_url(self):
