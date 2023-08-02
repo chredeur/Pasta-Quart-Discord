@@ -74,7 +74,7 @@ class User(DiscordModelsBase):
         # Few properties which are intended to be cached.
         self._guilds = None         # Mapping of guild ID to quart_discord.models.Guild(...).
         self.connections = None     # List of quart_discord.models.UserConnection(...).
-        self.playlist_has_perm = {} # Specific variable for the playlist creator guild.
+        self._playlist_has_perm = {} # Specific variable for the playlist creator guild.
 
     @property
     def guilds(self):
@@ -90,6 +90,11 @@ class User(DiscordModelsBase):
     @guilds.setter
     def guilds(self, value):
         self._guilds = value
+
+    @property
+    def playlist_has_perm(self):
+        """An alias to the playlist_has_perm attribute."""
+        return  self._playlist_has_perm
 
     def __str__(self):
         return f"{self.name}"
