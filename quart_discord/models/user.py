@@ -60,7 +60,7 @@ class User(DiscordModelsBase):
         super().__init__(payload)
         self.id = int(self._payload["id"])
         self.username = self._payload["username"]
-        self.global_name = self._payload["global_name"]
+        self.global_username = self._payload["global_name"]
         self.discriminator = self._payload["discriminator"]
         self.avatar_hash = self._payload.get("avatar", self.discriminator)
         self.bot = self._payload.get("bot", False)
@@ -108,7 +108,7 @@ class User(DiscordModelsBase):
     @property
     def global_name(self):
         """An alias to the global_name attribute."""
-        return self.global_name
+        return self.global_username
 
     @property
     def avatar_url(self):
