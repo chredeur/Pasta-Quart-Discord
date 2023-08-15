@@ -113,7 +113,7 @@ class User(DiscordModelsBase):
     @property
     def global_name(self):
         """An alias to the global_name attribute."""
-        return self.global_username
+        return self.global_username if self.global_username is None else self.username
 
     @property
     def avatar_url(self):
