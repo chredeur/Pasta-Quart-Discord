@@ -134,7 +134,7 @@ class DiscordOAuth2Session(_http.DiscordOAuth2HttpClient):
         if get_url is False:
             return redirect(authorization_url)
         else:
-            return  authorization_url
+            return authorization_url
 
     @staticmethod
     async def save_authorization_token(token: dict):
