@@ -1,6 +1,7 @@
 """Few utility functions and decorators."""
 
 import functools
+import bcrypt
 
 from . import exceptions
 from quart import current_app
@@ -30,6 +31,17 @@ def json_bool(value):
     if isinstance(value, str):
         return str(JSONBool.from_string(value))
     return str(JSONBool(value))
+
+
+def get_hashed_password(plain_text_password):
+    # Hash a password for the first time
+    #   (Using bcrypt, the salt is saved into the hash itself)
+    return bcrypt.hashpw(plain_text_password, bcrypt.gensalt())
+
+
+def check_password(plain_text_password, hashed_password):
+    # Check hashed password. Using bcrypt, the salt is saved into the hash itself
+    return bcrypt.checkpw(plain_text_password, hashed_password)
 
 
 # Decorators.
