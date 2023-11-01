@@ -74,7 +74,6 @@ class User(DiscordModelsBase):
         # Few properties which are intended to be cached.
         self._guilds = None           # Mapping of guild ID to quart_discord.models.Guild(...).
         self.connections = None       # List of quart_discord.models.UserConnection(...).
-        self._user_api_token = None  # User Api Token.
         self._other_data = {}         # Other user data.
 
     @property
@@ -91,11 +90,6 @@ class User(DiscordModelsBase):
     @guilds.setter
     def guilds(self, value):
         self._guilds = value
-
-    @property
-    def user_api_token(self):
-        """An alias to the user_hashed_token attribute."""
-        return self._user_api_token
 
     @property
     def other_data(self):
