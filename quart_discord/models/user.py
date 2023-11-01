@@ -1,4 +1,4 @@
-from .. import configs, get_hashed_password
+from .. import configs
 
 from .guild import Guild
 from .. import exceptions
@@ -74,7 +74,7 @@ class User(DiscordModelsBase):
         # Few properties which are intended to be cached.
         self._guilds = None           # Mapping of guild ID to quart_discord.models.Guild(...).
         self.connections = None       # List of quart_discord.models.UserConnection(...).
-        self._user_hashed_token = {}  # User Hashed Token.
+        self._user_api_token = None  # User Api Token.
         self._other_data = {}         # Other user data.
 
     @property
@@ -93,9 +93,9 @@ class User(DiscordModelsBase):
         self._guilds = value
 
     @property
-    def user_hashed_token(self):
+    def user_api_token(self):
         """An alias to the user_hashed_token attribute."""
-        return self._user_hashed_token
+        return self._user_api_token
 
     @property
     def other_data(self):
@@ -167,10 +167,6 @@ class User(DiscordModelsBase):
         self = await super().fetch_from_api()
         current_app.discord.users_cache.update({self.id: self})
         session["DISCORD_USER_ID"] = self.id
-
-        print(session.get("DISCORD_OAUTH2_TOKEN"))
-
-        self._user_hashed_token = get_hashed_password(plain_text_password="test")
 
         if guilds:
             await self.fetch_guilds()
