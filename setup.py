@@ -23,6 +23,7 @@ requirements = [
     'Async-OAuthlib',
     'cachetools',
     'discord.py',
+    'py-bcrypt'
 ]
 
 
