@@ -99,7 +99,7 @@ class User(DiscordModelsBase):
         return self._other_data
 
     @property
-    def created_at(self) -> datetime:
+    def created_at(self) -> datetime.datetime:
         """:class:`datetime.datetime`: Returns the user's creation time in UTC.
 
         This is when the user's Discord account was created.
