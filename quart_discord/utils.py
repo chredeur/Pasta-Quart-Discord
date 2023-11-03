@@ -1,9 +1,12 @@
 """Few utility functions and decorators."""
 
 import functools
+import datetime
 
 from . import exceptions
 from quart import current_app
+
+DISCORD_EPOCH = 1420070400000
 
 
 class JSONBool(object):
@@ -30,6 +33,26 @@ def json_bool(value):
     if isinstance(value, str):
         return str(JSONBool.from_string(value))
     return str(JSONBool(value))
+
+
+def snowflake_time(id: int, /) -> datetime.datetime:
+    """Returns the creation time of the given snowflake.
+
+    .. versionchanged:: 2.0
+        The ``id`` parameter is now positional-only.
+
+    Parameters
+    -----------
+    id: :class:`int`
+        The snowflake ID.
+
+    Returns
+    --------
+    :class:`datetime.datetime`
+        An aware datetime in UTC representing the creation time of the snowflake.
+    """
+    timestamp = ((id >> 22) + DISCORD_EPOCH) / 1000
+    return datetime.datetime.fromtimestamp(timestamp, tz=datetime.timezone.utc)
 
 
 # Decorators.

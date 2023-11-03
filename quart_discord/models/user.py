@@ -1,4 +1,6 @@
-from .. import configs
+import datetime
+
+from .. import configs, snowflake_time
 
 from .guild import Guild
 from .. import exceptions
@@ -95,6 +97,14 @@ class User(DiscordModelsBase):
     def other_data(self):
         """An alias to the other_data attribute."""
         return self._other_data
+
+    @property
+    def created_at(self) -> datetime:
+        """:class:`datetime.datetime`: Returns the user's creation time in UTC.
+
+        This is when the user's Discord account was created.
+        """
+        return snowflake_time(self.id)
 
     def __str__(self):
         return f"{self.name}"
